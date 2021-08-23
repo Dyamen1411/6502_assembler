@@ -38,6 +38,7 @@ enum {
     LEGAL_MASK_ZPY = 0x1000
 };
 
+// Struct which holds information about a particular instruction
 typedef struct {
     const char name[4];
     const unsigned char codes[AM_COUNT];
