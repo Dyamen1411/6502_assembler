@@ -336,6 +336,7 @@ token_t lexer_get_next_token(lexer_t *lexer) {
     // token is a directive
     if (*str == '.') {
         //TODO: implement
+        printf("Directives are not implemented yet.\n");
         goto lexer_get_next_token_error;
     }
 
