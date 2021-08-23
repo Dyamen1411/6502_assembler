@@ -3,13 +3,6 @@
 
 #include "token.h"
 
-// typedef struct {
-//     char *str;
-//     unsigned long str_len;
-//     unsigned long index;
-//     char current_char;
-// } internal_lexer_t;
-
 typedef struct internal_lexer_t lexer_t;
 
 lexer_t* lexer_create(char *string);
