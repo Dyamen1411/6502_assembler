@@ -335,6 +335,7 @@ unsigned char parse_tokens_to_rom(token_t *tokens, unsigned long token_count, un
     return 0;
 }
 
+// Writes content of rom buffer to file
 unsigned char write_rom_to_file(unsigned char *rom, char *output_file_name) {
     FILE *stream = fopen(output_file_name, "wb");
     if (stream == NULL) {
@@ -342,6 +343,7 @@ unsigned char write_rom_to_file(unsigned char *rom, char *output_file_name) {
         return 1;
     }
 
+    // Writing rom buffer to file.
     fwrite(rom, ROM_SIZE, 1, stream);
     fclose(stream);
 
