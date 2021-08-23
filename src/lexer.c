@@ -1,5 +1,5 @@
 #include "lexer.h"
-#include "opcodes.h"
+#include "instructions.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -323,10 +323,10 @@ token_t lexer_get_next_token(lexer_t *lexer) {
 
         // Get the hash of the mnemonic.
         // If the mnemonic is valid, return token.
-        token.data.op_index = hash(str - 3);
-        if (token.data.op_index) {
-            token.type = TOKEN_OP;
-            --token.data.op_index;
+        token.data.instruction_index = hash(str - 3);
+        if (token.data.instruction_index) {
+            token.type = TOKEN_INSTRUCTION;
+            --token.data.instruction_index;
             goto lexer_get_next_token_end;
         }
 

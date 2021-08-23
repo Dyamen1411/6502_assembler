@@ -1,5 +1,5 @@
 #include "lexer.h"
-#include "opcodes.h"
+#include "instructions.h"
 #include "token.h"
 
 #include <memory.h>
@@ -271,24 +271,24 @@ unsigned char parse_tokens_to_rom(token_t *tokens, unsigned long token_count, un
             return 1;
         }
 
-        // Treated token should be an op
-        if (!(token.type & TOKEN_OP)) {
-            printf("not op %d\n", i);
+        // Treated token should be an instruction
+        if (!(token.type & TOKEN_INSTRUCTION)) {
+            printf("not inst %d\n", i);
             return 1;
         }
 
-        // Getting data related to the opcode
-        instruction_data_t opcode_data = instruction_data_table[token.data.op_index];
+        // Getting data related to the instruction
+        instruction_data_t instruction_data = instruction_data_table[token.data.instruction_index];
 
         // If IMP or ACC => write one byte
-        if (opcode_data.legal_mask & LEGAL_MASK_IMP) {
-            rom[rom_pointer++] = opcode_data.codes[INDEX_IMP];
+        if (instruction_data.legal_mask & LEGAL_MASK_IMP) {
+            rom[rom_pointer++] = instruction_data.codes[INDEX_IMP];
             continue;
         }
 
-        if ((opcode_data.legal_mask & LEGAL_MASK_ACC) 
-            && (tokens[i + 1].type & (TOKEN_OP | TOKEN_EOF))) {
-            rom[rom_pointer++] = opcode_data.codes[INDEX_ACC];
+        if ((instruction_data.legal_mask & LEGAL_MASK_ACC) 
+            && (tokens[i + 1].type & (TOKEN_INSTRUCTION | TOKEN_EOF))) {
+            rom[rom_pointer++] = instruction_data.codes[INDEX_ACC];
             continue;
         }
 
@@ -305,19 +305,19 @@ unsigned char parse_tokens_to_rom(token_t *tokens, unsigned long token_count, un
         }
 
         // Matching instrunction possible addressing modes with number.
-        unsigned short common_addressing_modes = opcode_data.legal_mask & tokens[i+1].data.number_attrib.possible_addressing_modes;
+        unsigned short common_addressing_modes = instruction_data.legal_mask & tokens[i+1].data.number_attrib.possible_addressing_modes;
         unsigned short index = mask_to_index(common_addressing_modes);
 
         // Instruction and number are not compatible. error
         if (index == AM_COUNT) {
-            printf("Unknown opcode.\n");
+            printf("Unknown instruction.\n");
             return 1;
         }
 
         ++i;
 
         // Writing instrunction and number (lo)
-        rom[rom_pointer++] = opcode_data.codes[index];
+        rom[rom_pointer++] = instruction_data.codes[index];
         rom[rom_pointer++] = tokens[i].data.number_attrib.value & 0xFF;
 
         // If number is 16 bits, write number (hi)

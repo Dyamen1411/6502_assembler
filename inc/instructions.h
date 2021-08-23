@@ -1,9 +1,9 @@
-#ifndef OPCODES_H
-#define OPCODES_H
+#ifndef INSTRUCTIONS_H
+#define INSTRUCTIONS_H
 
-#define OPERATOR_COUNT 56
+#define INSTRUCTION_COUNT 56
 
-// Index in opcode table for addressing modes
+// Index in instruction data table for addressing modes
 enum {
     INDEX_ACC,
     INDEX_ABS,
@@ -45,10 +45,10 @@ typedef struct {
     const unsigned short legal_mask;
 } instruction_data_t;
 
-extern instruction_data_t instruction_data_table[OPERATOR_COUNT];
+extern instruction_data_t instruction_data_table[INSTRUCTION_COUNT];
 
 // hash converts a string (at least 3 caracters long)
-// to an index ranging from 0 to OPERATOR_COUNT.
+// to an index ranging from 0 to INSTRUCTION_COUNT.
 unsigned char hash(const char *str);
 
 #endif
