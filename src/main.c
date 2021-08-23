@@ -23,11 +23,13 @@ unsigned char write_rom_to_file(unsigned char *rom, char *output_file_name);
 unsigned short mask_to_index(unsigned short mask);
 
 int main(int argc, char **argv) {
+    // Read the arguments passed
     program_data_t *program_data = process_args(argc, argv);
     if (program_data == NULL) {
         return 1;
     }
 
+    // Read input file content
     char *file_content = get_text_from_file(program_data->input_file_name);
     if (file_content == NULL) {
         free(program_data->input_file_name);
@@ -36,6 +38,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+    // Break file content into tokens
     token_t *tokens;
     unsigned long token_count;
     if (get_tokens(file_content, &tokens, &token_count)) {
@@ -47,8 +50,10 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+    // No more need for the file content
     free(file_content);
 
+    // Parse tokens to the rom buffer
     unsigned char *output_buffer = (unsigned char*) malloc(0x10000);
     if (parse_tokens_to_rom(tokens, token_count, output_buffer)) {
         free(program_data->input_file_name);
@@ -59,8 +64,10 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+    // No more need for the tokens
     free(tokens);
     
+    // Write rom buffer to output file
     if (write_rom_to_file(output_buffer, program_data->output_file_name)) {
         free(program_data->input_file_name);
         free(program_data->output_file_name);
@@ -69,6 +76,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+    // Cleanup
     free(program_data->input_file_name);
     free(program_data->output_file_name);
     free(program_data);
