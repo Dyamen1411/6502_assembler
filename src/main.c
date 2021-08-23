@@ -186,10 +186,12 @@ char *get_text_from_file(const char *file_name) {
         return NULL;
     }
 
+    // Get file size
     fseek(in, 0, SEEK_END);
     unsigned long file_size = ftell(in);
     fseek(in, 0, SEEK_SET);
 
+    // Reading file to $str
     char *str = (char*) malloc(file_size + 1);
     str[file_size] = 0;
     fread(str, 1, file_size, in);
