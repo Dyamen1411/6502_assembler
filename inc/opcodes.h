@@ -47,6 +47,8 @@ typedef struct {
 
 extern instruction_data_t instruction_data_table[OPERATOR_COUNT];
 
+// hash converts a string (at least 3 caracters long)
+// to an index ranging from 0 to OPERATOR_COUNT.
 unsigned char hash(const char *str);
 
 #endif
