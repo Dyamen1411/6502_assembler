@@ -13,14 +13,17 @@ typedef struct {
     char current_char;
 } internal_lexer_t;
 
+// Tells wether a character is 'white' or not
 unsigned char is_white(char c) {
     return (c) == ' ' || (c) == '\t';
 }
 
+// Tells wether a character is a delimiter or not
 unsigned char is_delim(char c) {
-    return c == ' ' || c == '\t' || c == '\n' || c == ';' || c == 0;
+    return is_white(c) || c == '\n' || c == ';' || c == 0;
 }
 
+// Tells wether a character is hexadecimal or not
 unsigned char is_hex(char c) {
     return ('0' <= c && c <= '9') || ('a' <= (c | 0x20) && (c | 0x20) <= 'f');
 }
