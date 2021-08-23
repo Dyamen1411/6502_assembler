@@ -19,7 +19,7 @@ mrproper:
 	@rm -rf $(OBJECT_DIR)/*
 
 out.bin: test.rom
-	@./app test.rom
+	@./app test.rom -o out.bin
 
 hd: $(TARGET) out.bin 
 	@hexdump -C out.bin
