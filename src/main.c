@@ -259,7 +259,7 @@ unsigned char parse_tokens_to_rom(token_t *tokens, unsigned long token_count, un
         }
 
         // Getting data related to the opcode
-        opcode_t opcode_data = opcode_table[token.data.op_index];
+        instruction_data_t opcode_data = instruction_data_table[token.data.op_index];
 
         // If IMP or ACC => write one byte
         if (opcode_data.legal_mask & LEGAL_MASK_IMP) {

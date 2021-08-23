@@ -3,6 +3,7 @@
 
 #define OPERATOR_COUNT 56
 
+// Index in opcode table for addressing modes
 enum {
     INDEX_ACC,
     INDEX_ABS,
@@ -20,6 +21,7 @@ enum {
     AM_COUNT
 };
 
+// Mask to tell wether an instruction is legal with a certain addressing mode
 enum {
     LEGAL_MASK_ACC = 0x0001,
     LEGAL_MASK_ABS = 0x0002,
@@ -40,9 +42,9 @@ typedef struct {
     const char name[4];
     const unsigned char codes[AM_COUNT];
     const unsigned short legal_mask;
-} opcode_t;
+} instruction_data_t;
 
-extern opcode_t opcode_table[OPERATOR_COUNT];
+extern instruction_data_t instruction_data_table[OPERATOR_COUNT];
 
 unsigned char hash(const char *str);
 
