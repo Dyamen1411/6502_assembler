@@ -209,7 +209,7 @@ unsigned char get_tokens(char *file_content, token_t **tokens, unsigned long *to
 
     token_t *token = *tokens;
     do {
-        // Get next token & set id
+        // Get next token and set id
         *token = lexer_get_next_token(lexer);
         if (token->type & TOKEN_INVALID) {
             printf("Token %d is invalid\n", *token_count - 1);
@@ -253,15 +253,19 @@ unsigned short mask_to_index(unsigned short mask) {
 #undef convert
 }
 
+// Read and manipulate tokens to create the rom file
 unsigned char parse_tokens_to_rom(token_t *tokens, unsigned long token_count, unsigned char *rom) {
     unsigned long rom_pointer = 0;
 
     for (unsigned long i = 0; i < token_count; ++i) {
         token_t token = tokens[i];
+
+        // No need to process more when EOF token is read
         if (token.type & TOKEN_EOF) {
             break;
         }
 
+        // Not enough space to write token. error
         if (rom_pointer + 1 >= ROM_SIZE) {
             printf("Code does not fit in rom.\n");
             return 1;
@@ -288,18 +292,23 @@ unsigned char parse_tokens_to_rom(token_t *tokens, unsigned long token_count, un
             continue;
         }
 
+        // Not enough space to write token. error
         if (rom_pointer + 2 >= ROM_SIZE) {
             printf("Code does not fit in rom.\n");
             return 1;
         }
 
+        // Next token expected.
         if (tokens[i + 1].type & TOKEN_EOF || !(tokens[i+1].type & TOKEN_NUMBER)) {
             printf("Missing operand.\n");
             return 1;
         }
 
+        // Matching instrunction possible addressing modes with number.
         unsigned short common_addressing_modes = opcode_data.legal_mask & tokens[i+1].data.number_attrib.possible_addressing_modes;
         unsigned short index = mask_to_index(common_addressing_modes);
+
+        // Instruction and number are not compatible. error
         if (index == AM_COUNT) {
             printf("Unknown opcode.\n");
             return 1;
@@ -307,10 +316,13 @@ unsigned char parse_tokens_to_rom(token_t *tokens, unsigned long token_count, un
 
         ++i;
 
+        // Writing instrunction and number (lo)
         rom[rom_pointer++] = opcode_data.codes[index];
         rom[rom_pointer++] = tokens[i].data.number_attrib.value & 0xFF;
 
+        // If number is 16 bits, write number (hi)
         if (common_addressing_modes & (LEGAL_MASK_ABS | LEGAL_MASK_ABX | LEGAL_MASK_ABY | LEGAL_MASK_IND)) {
+            // Not enough space to write token. error
             if (rom_pointer + 1 >= ROM_SIZE) {
                 printf("Code does not fit un rom.\n");
                 return 1;
