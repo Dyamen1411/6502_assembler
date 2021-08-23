@@ -28,6 +28,7 @@ unsigned char is_hex(char c) {
     return ('0' <= c && c <= '9') || ('a' <= (c | 0x20) && (c | 0x20) <= 'f');
 }
 
+// Creates a lexer from a string
 lexer_t* lexer_create(char *string) {
     internal_lexer_t *lexer = (internal_lexer_t*) malloc(sizeof(internal_lexer_t));
     lexer->str_len = strlen(string);
@@ -37,12 +38,14 @@ lexer_t* lexer_create(char *string) {
     return (lexer_t*) lexer;
 }
 
+// Fetches next character in the lexer
 void next(internal_lexer_t *lexer) {
     if (lexer->current_char != 0) {
         lexer->current_char = lexer->str[++lexer->index];
     }
 }
 
+// Destroys the lexer
 void lexer_delete(lexer_t *lexer) {
     internal_lexer_t *ilexer = (internal_lexer_t*) lexer;
     free(ilexer);
