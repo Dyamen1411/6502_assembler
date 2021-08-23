@@ -278,6 +278,9 @@ unsigned char is_zpy(char *str, short *value) {
     return 0;
 }
 
+// Reads next token from $lexer and returns it.
+// If there has been a problem in the reading,
+// returned token type will have the TOKEN_INVALID flag.
 token_t lexer_get_next_token(lexer_t *lexer) {
     internal_lexer_t *ilexer = (internal_lexer_t*) lexer;
     token_t token;
@@ -290,7 +293,7 @@ token_t lexer_get_next_token(lexer_t *lexer) {
 
     // skip white spaces
     while (is_white(ilexer->current_char) || ilexer->current_char == '\n' || ilexer->current_char == ';') {
-        // current chat is ';' => comment till next line
+        // current chat is ';', the rest of the line is a comment
         if (ilexer->current_char == ';') {
             while (ilexer->current_char != '\n' && ilexer->current_char) {
                 ilexer->current_char = ilexer->str[++ilexer->index];
@@ -318,6 +321,8 @@ token_t lexer_get_next_token(lexer_t *lexer) {
             goto lexer_get_next_token_error;
         }
 
+        // Get the hash of the mnemonic.
+        // If the mnemonic is valid, return token.
         token.data.op_index = hash(str - 3);
         if (token.data.op_index) {
             token.type = TOKEN_OP;
@@ -337,6 +342,7 @@ token_t lexer_get_next_token(lexer_t *lexer) {
     // token is a number
     token.type = TOKEN_NUMBER;
 
+    // Determine addressing modes
     if (is_abs(str, &token.data.number_attrib.value)) {
         token.data.number_attrib.possible_addressing_modes = LEGAL_MASK_ABS;
         str += 4;
@@ -401,6 +407,8 @@ lexer_get_next_token_error:
     token.type |= TOKEN_INVALID;
 
 lexer_get_next_token_end:
+    // If the lexer has not reached the end of the file,
+    // reinitialize the lexer to the right index.
     if (ilexer->current_char) {
         ilexer->index = (unsigned long) (str - ilexer->str);
         ilexer->current_char = ilexer->str[++ilexer->index];
