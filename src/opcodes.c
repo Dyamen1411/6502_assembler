@@ -22,6 +22,7 @@
 
 #define BRK {"BRK",{0,0,0,0,0,0,0,0,0,0,0,0,0},LEGAL_MASK_IMP}
 
+// Building the instruction data table
 instruction_data_t instruction_data_table[OPERATOR_COUNT] = {
     OP(ADC,00,69,65,75,00,6D,7D,79,00,61,71,00,00),
     OP(AND,00,29,25,35,00,2D,3D,39,00,21,31,00,00),
@@ -83,8 +84,10 @@ instruction_data_t instruction_data_table[OPERATOR_COUNT] = {
 
 #undef BRK
 #undef OP
+
 #define UNKNOWN_OP 0
 
+// This function is faster than doing 55(?) strcmp (I mean, I think?)
 unsigned char hash(const char *str) {
     char c1 = str[0] | 0x20;
     char c2 = str[1] | 0x20;
