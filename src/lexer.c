@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+// A lexer is a tool to do lexical analysis.
 typedef struct {
     char *str;
     unsigned long str_len;
