@@ -2,3 +2,5 @@ TODO: print error message to explain why code doesn't assemble
 TODO: implement dot directives (org, byte, word (, str maybe?))
 TODO: think of a way to implement labeling system
 TODO: replace MAX_TOKEN_COUNT by array list
+TODO: print useful informations when -h
+TODO: add --help
