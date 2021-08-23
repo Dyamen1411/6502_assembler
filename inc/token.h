@@ -1,6 +1,7 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
+// A token type is a mask
 typedef enum {
     TOKEN_INVALID   = 0x01,
     TOKEN_OP        = 0x02,
