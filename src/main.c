@@ -85,6 +85,7 @@ int main(int argc, char **argv) {
     return 0;
 }
 
+// Creating program data from arguments passed.
 program_data_t* process_args(int argc, char **argv) {
     if (argc < 2) {
         printf("Expected arguments.\nTry -h for help\n");
