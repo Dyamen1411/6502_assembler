@@ -45,12 +45,14 @@ void next(internal_lexer_t *lexer) {
     }
 }
 
-// Destroys the lexer
+// Destroys $lexer
 void lexer_delete(lexer_t *lexer) {
     internal_lexer_t *ilexer = (internal_lexer_t*) lexer;
     free(ilexer);
 }
 
+// Tells wther $str is represents an ABS value.
+// If so, reads value and puts it in $value.
 unsigned char is_abs(char *str, short *value) {
     if (strlen(str) < 5) {
         return 0;
@@ -71,6 +73,8 @@ unsigned char is_abs(char *str, short *value) {
     return 0;
 }
 
+// Tells wther $str is represents an ABX value.
+// If so, reads value and puts it in $value.
 unsigned char is_abx(char *str, short *value) {
     if (strlen(str) < 7) {
         return 0;
@@ -93,6 +97,8 @@ unsigned char is_abx(char *str, short *value) {
     return 0;
 }
 
+// Tells wther $str is represents an ABY value.
+// If so, reads value and puts it in $value.
 unsigned char is_aby(char *str, short *value) {
     if (strlen(str) < 7) {
         return 0;
@@ -115,6 +121,8 @@ unsigned char is_aby(char *str, short *value) {
     return 0;
 }
 
+// Tells wther $str is represents an IMM value.
+// If so, reads value and puts it in $value.
 unsigned char is_imm(char *str, short *value) {
     if (strlen(str) < 4) {
         return 0;
@@ -134,6 +142,8 @@ unsigned char is_imm(char *str, short *value) {
     return 0;
 }
 
+// Tells wther $str is represents an IND value.
+// If so, reads value and puts it in $value.
 unsigned char is_ind(char *str, short *value) {
     if (strlen(str) < 7) {
         return 0;
@@ -156,6 +166,8 @@ unsigned char is_ind(char *str, short *value) {
     return 0;
 }
 
+// Tells wther $str is represents an INX value.
+// If so, reads value and puts it in $value.
 unsigned char is_inx(char *str, short *value) {
     if (strlen(str) < 7) {
         return 0;
@@ -178,6 +190,8 @@ unsigned char is_inx(char *str, short *value) {
     return 0;
 }
 
+// Tells wther $str is represents an INY value.
+// If so, reads value and puts it in $value.
 unsigned char is_iny(char *str, short *value) {
     if (strlen(str) < 7) {
         return 0;
@@ -200,6 +214,8 @@ unsigned char is_iny(char *str, short *value) {
     return 0;
 }
 
+// Tells wther $str is represents a REL or ZPG value.
+// If so, reads value and puts it in $value.
 unsigned char is_rel_zpg(char *str, short *value) {
     if (strlen(str) < 3) {
         return 0;
@@ -217,6 +233,9 @@ unsigned char is_rel_zpg(char *str, short *value) {
     return 0;
 }
 
+
+// Tells wther $str is represents a ZPG value.
+// If so, reads value and puts it in $value.
 unsigned char is_zpx(char *str, short *value) {
     if (strlen(str) < 5) {
         return 0;
@@ -237,6 +256,8 @@ unsigned char is_zpx(char *str, short *value) {
     return 0;
 }
 
+// Tells wther $str is represents an ZPG value.
+// If so, reads value and puts it in $value.
 unsigned char is_zpy(char *str, short *value) {
     if (strlen(str) < 5) {
         return 0;
