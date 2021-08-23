@@ -200,11 +200,13 @@ char *get_text_from_file(const char *file_name) {
     return str;
 }
 
+// Converts string to tokens
 unsigned char get_tokens(char *file_content, token_t **tokens, unsigned long *token_count) {
+    // Creating lexer
     lexer_t *lexer = lexer_create(file_content);
     *tokens = (token_t*) malloc(MAX_TOKEN_COUNT);
-
     *token_count = 1;
+
     token_t *token = *tokens;
     do {
         // Get next token & set id
@@ -217,6 +219,7 @@ unsigned char get_tokens(char *file_content, token_t **tokens, unsigned long *to
 
         token->id = *token_count;
 
+        // No need to read more when EOF is hit
         if (token->type & TOKEN_EOF) {
             break;
         }
