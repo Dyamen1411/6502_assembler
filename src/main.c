@@ -178,6 +178,7 @@ program_data_t* process_args(int argc, char **argv) {
     return program_data;
 }
 
+// Reads input file content to a string 
 char *get_text_from_file(const char *file_name) {
     FILE *in = fopen(file_name, "rb");
     if (in == NULL) {
