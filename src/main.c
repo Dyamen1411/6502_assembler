@@ -104,7 +104,8 @@ program_data_t* process_args(int argc, char **argv) {
             ++token;
             if (strcmp(token, "h") == 0) {
                 printf("help\n");
-                continue;
+                error = 1;
+                break;
             }
 
             if (strcmp(token, "o") == 0) {
