@@ -8,11 +8,14 @@ SOURCES = $(shell find $(SOURCE_DIR)/*.c)
 INCLUDES = $(shell find $(INCLUDE_DIR)/*.h)
 OBJECTS = $(SOURCES:$(SOURCE_DIR)/%.c=$(OBJECT_DIR)/%.o)
 
-$(TARGET): $(OBJECTS) $(INCLUDES)
+$(TARGET): $(OBJECT_DIR) $(OBJECTS) $(INCLUDES) 
 	gcc -o $(TARGET) $(OBJECTS)
 
 $(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.c
 	gcc -c -o $@ $< -I$(INCLUDE_DIR)
+
+$(OBJECT_DIR):
+	@mkdir $(OBJECT_DIR)
 
 mrproper:
 	@rm -f $(TARGET)
